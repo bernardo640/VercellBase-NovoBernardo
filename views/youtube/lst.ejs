@@ -1,40 +1,36 @@
 <%- include('../cabecalho.ejs') %>
 
-<h1>Título</h1>
+<h1>Lista de Vídeos</h1>
 
-<div>
-  <form action="" method="post">
-    <input type="text" name="filtro" placeholder="digite o canal">
-    <button type="submit">Pesquisar</button>
-  </form>
-</div>
+<form action="/youtube/lst" method="post">
+  <input type="text" name="filtro" placeholder="Pesquisar por título">
+  <button type="submit">Buscar</button>
+</form>
 
-<a href="/youtube/add">+ Título</a>
+<a href="/youtube/add">+ Vídeo</a>
 
-<table>
+<table border="1">
   <tr>
-    <td>Título</td>
-    <td>Canal</td>
-    <td>Duração</td>
-    <td>Visualizações</td>
-    <td>Upload</td>
-    <td>Ações</td>
+    <th>Título</th>
+    <th>Canal</th>
+    <th>Duração</th>
+    <th>Visualizações</th>
+    <th>Upload</th>
+    <th>Ações</th>
   </tr>
-
-  <% for (const { id, titulo, canal, duracao, visualizacoes, upload, acoes } of Youtube) { %>
+  <% videos.forEach(video => { %>
     <tr>
-      <td><%= titulo %></td>
-      <td><%= canal %></td>
-      <td><%= duracao %></td>
-      <td><%= visualizacoes %></td>
-      <td><%= upload %></td>
-      <td><%= acoes %></td>
+      <td><%= video.titulo %></td>
+      <td><%= video.canal ? video.canal.nome : "Sem canal" %></td>
+      <td><%= video.duracao %>s</td>
+      <td><%= video.visualizacoes %></td>
+      <td><%= video.upload.toLocaleDateString("pt-BR") %></td>
       <td>
-        <a href="/youtube/edt/<%= id %>">Editar</a>
-        <a href="/youtube/del/<%= id %>">Excluir</a>
+        <a href="/youtube/edt/<%= video._id %>">Editar</a> |
+        <a href="/youtube/del/<%= video._id %>">Excluir</a>
       </td>
     </tr>
-  <% } %>
+  <% }) %>
 </table>
 
 <%- include('../rodape.ejs') %>

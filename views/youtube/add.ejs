@@ -2,33 +2,32 @@
 
 <h1>Adicionar Vídeo</h1>
 
-<div>
-  <a href="/canal/lst">ver canal</a>
-  <a href="/youtube/lst">Listar</a>
-</div>
+<a href="/youtube/lst">Listar Vídeos</a>
 
-<div>
-  <form method="post">
-    <label>Título:</label>
-    <input type="text" name="titulo"><br>
+<form action="/youtube/add" method="post">
+  <label>Título:</label>
+  <input type="text" name="titulo" required><br>
 
-    <label>Canal:</label>
-    <input type="text" name="canal"><br>
+  <label>Canal:</label>
+  <select name="canal" required>
+    <% canais.forEach(canal => { %>
+      <option value="<%= canal._id %>"><%= canal.nome %></option>
+    <% }) %>
+  </select><br>
 
-    <label>Duração:</label>
-    <input type="number" name="duracao"><br>
+  <label>Duração (segundos):</label>
+  <input type="number" name="duracao" required><br>
 
-    <label>Visualizações:</label>
-    <input type="number" name="visualizacoes"><br>
+  <label>Visualizações:</label>
+  <input type="number" name="visualizacoes" required><br>
 
-    <label>Upload:</label>
-    <input type="text" name="upload"><br> <!-- corrigido -->
+  <label>Data de Upload:</label>
+  <input type="date" name="upload" required><br>
 
-    <label>Ações:</label>
-    <input type="text" name="acoes"><br>
+  <label>Ações:</label>
+  <input type="text" name="acoes" required><br>
 
-    <button type="submit">Cadastrar</button>
-  </form>
-</div>
+  <button type="submit">Cadastrar</button>
+</form>
 
 <%- include('../rodape.ejs') %>
