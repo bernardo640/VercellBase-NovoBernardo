@@ -1,0 +1,17 @@
+<%- include('../cabecalho.ejs') %>
+
+<h1>Editar Canal</h1>
+
+<a href="/canal/lst">Listar Canais</a>
+
+<form action="/canal/edt/<%= canal._id %>" method="post">
+  <label>Nome:</label>
+  <input type="text" name="nome" value="<%= canal.nome %>" required><br>
+
+  <label>Inscritos:</label>
+  <input type="number" name="inscritos" value="<%= canal.inscritos %>" required><br>
+
+  <button type="submit">Atualizar</button>
+</form>
+
+<%- include('../rodape.ejs') %>

@@ -1,0 +1,34 @@
+<%- include('../cabecalho.ejs') %>
+
+<h1>Adicionar Vídeo</h1>
+
+<div>
+  <a href="/canal/lst">ver canal</a>
+  <a href="/youtube/lst">Listar</a>
+</div>
+
+<div>
+  <form method="post">
+    <label>Título:</label>
+    <input type="text" name="titulo"><br>
+
+    <label>Canal:</label>
+    <input type="text" name="canal"><br>
+
+    <label>Duração:</label>
+    <input type="number" name="duracao"><br>
+
+    <label>Visualizações:</label>
+    <input type="number" name="visualizacoes"><br>
+
+    <label>Upload:</label>
+    <input type="text" name="upload"><br> <!-- corrigido -->
+
+    <label>Ações:</label>
+    <input type="text" name="acoes"><br>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+</div>
+
+<%- include('../rodape.ejs') %>

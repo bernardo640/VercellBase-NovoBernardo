@@ -1,0 +1,35 @@
+<%- include('../cabecalho.ejs') %>
+
+<h1>Editar Vídeo</h1>
+
+<div>
+  <a href="/youtube/lst">Listar</a>
+</div>
+
+<div>
+  <form method="post">
+    <input type="hidden" name="id" value="<%= Youtube.id %>"><br>
+
+    <label>Título:</label>
+    <input type="text" name="titulo" value="<%= Youtube.titulo %>"><br>
+
+    <label>Canal:</label>
+    <input type="text" name="canal" value="<%= Youtube.canal %>"><br>
+
+    <label>Duração:</label>
+    <input type="number" name="duracao" value="<%= Youtube.duracao %>"><br>
+
+    <label>Visualizações:</label>
+    <input type="number" name="visualizacoes" value="<%= Youtube.visualizacoes %>"><br>
+
+    <label>Upload:</label>
+    <input type="text" name="upload" value="<%= Youtube.upload %>"><br>
+
+    <label>Ações:</label>
+    <input type="text" name="acoes" value="<%= Youtube.acoes %>"><br>
+
+    <button type="submit">Atualizar</button>
+  </form>
+</div>
+
+<%- include('../rodape.ejs') %>
