@@ -1,5 +1,12 @@
 <%- include('../cabecalho.ejs') %>
 
+<form action="/youtube/lst" method="post">
+  <input type="text" name="filtro" placeholder="Pesquisar por nome">
+  <button type="submit">Buscar</button>
+</form>
+
+<a href="/youtube/add">+ video</a>
+
 <table border="1">
   <tr>
     <th>Miniatura</th>
@@ -14,7 +21,7 @@
     <tr>
       <td>
         <% if (video.miniatura) { %>
-          <img src="data:image/png;base64,<%= video.miniatura.toString('base64') %>" width="120" height="90">
+          <img src="<%= video.miniatura%>" width="120" height="90">
         <% } else { %>
           <span>Sem imagem</span>
         <% } %>
