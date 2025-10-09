@@ -11,17 +11,25 @@
 
 <table border="1">
   <tr>
+    <th>Imagem</th>
     <th>Nome</th>
     <th>Inscritos</th>
     <th>Ações</th>
   </tr>
   <% canais.forEach(canal => { %>
     <tr>
+      <td>
+        <% if (canal.imagem) { %>
+          <img src="<%= canal.imagem %>" width="100" height="100">
+        <% } else { %>
+          <span>Sem imagem</span>
+        <% } %>
+      </td>
       <td><%= canal.nome %></td>
       <td><%= canal.inscritos %></td>
       <td>
-        <a href="/canal/edt/<%= canal._id %>">Editar</a> |
-        <a href="/canal/del/<%= canal._id %>">Excluir</a>
+        <a href="/canal/edt/<%= canal.id %>">Editar</a> |
+        <a href="/canal/del/<%= canal.id %>">Excluir</a>
       </td>
     </tr>
   <% }) %>

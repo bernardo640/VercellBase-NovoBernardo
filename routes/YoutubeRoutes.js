@@ -1,18 +1,23 @@
 import express from 'express';
+import multer from 'multer';
 import YoutubeController from '../controllers/YoutubeController.js';
 
 const router = express.Router();
-const controle = new YoutubeController();
 
-router.get('/youtube/add', controle.openAdd);
-router.post('/youtube/add', controle.add);
+// Configuração do Multer (salva imagens na memória)
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-router.get('/youtube/lst', controle.list);
-router.post('/youtube/lst', controle.find);
+// Rotas
+router.get('/youtube/add', YoutubeController.openAdd);
+router.post('/youtube/add', upload.single('miniatura'), YoutubeController.add);
 
-router.get('/youtube/edt/:id', controle.openEdt);
-router.post('/youtube/edt/:id', controle.edt);
+router.get('/youtube/lst', YoutubeController.list);
+router.post('/youtube/lst', YoutubeController.list);
 
-router.get('/youtube/del/:id', controle.del);
+router.get('/youtube/edt/:id', YoutubeController.openEdit);
+router.post('/youtube/edt/:id', upload.single('miniatura'), YoutubeController.edit);
+
+router.get('/youtube/del/:id', YoutubeController.delete);
 
 export default router;

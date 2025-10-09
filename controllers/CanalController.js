@@ -1,48 +1,78 @@
 import Canal from '../models/canal.js';
 
 export default class CanalController {
-    constructor(caminhoBase = 'canal/') {
-        this.caminhoBase = caminhoBase;
+  constructor(caminhoBase = 'canal/') {
+    this.caminhoBase = caminhoBase;
 
-        this.openAdd = async (req, res) => {
-            res.render(this.caminhoBase + "add");
-        };
+    // Abre o formulário de cadastro
+    this.openAdd = async (req, res) => {
+      res.render(this.caminhoBase + "add");
+    };
 
-        this.add = async (req, res) => {
-            await Canal.create({
-                nome: req.body.nome,
-                inscritos: req.body.inscritos
-            });
-            res.redirect('/' + this.caminhoBase + 'add');
-        };
+    // Cadastra um novo canal com imagem
+    this.add = async (req, res) => {
+      await Canal.create({
+        nome: req.body.nome,
+        inscritos: req.body.inscritos,
+        imagem: req.file ? req.file.buffer : null
+      });
+      res.redirect('/' + this.caminhoBase + 'lst');
+    };
 
-        this.list = async (req, res) => {
-            const resultado = await Canal.find({});
-            res.render(this.caminhoBase + 'lst', { canais: resultado });
-        };
+    // Lista canais com imagem convertida
+    this.list = async (req, res) => {
+      const canais = await Canal.find({});
+      const resposta = canais.map(canal => ({
+        id: canal._id,
+        nome: canal.nome,
+        inscritos: canal.inscritos,
+        imagem: canal.imagem && Buffer.isBuffer(canal.imagem)
+          ? `data:image/png;base64,${canal.imagem.toString('base64')}`
+          : null
+      }));
 
-        this.find = async (req, res) => {
-            const filtro = req.body.filtro;
-            const resultado = await Canal.find({
-                nome: { $regex: filtro, $options: "i" }
-            });
-            res.render(this.caminhoBase + 'lst', { canais: resultado });
-        };
+      res.render(this.caminhoBase + 'lst', { canais: resposta });
+    };
 
-        this.openEdt = async (req, res) => {
-            const id = req.params.id;
-            const canal = await Canal.findById(id);
-            res.render(this.caminhoBase + "edt", { canal });
-        };
+    // Pesquisa
+    this.find = async (req, res) => {
+      const filtro = req.body.filtro;
+      const resultado = await Canal.find({
+        nome: { $regex: filtro, $options: "i" }
+      });
+      const resposta = resultado.map(canal => ({
+        id: canal._id,
+        nome: canal.nome,
+        inscritos: canal.inscritos,
+        imagem: canal.imagem && Buffer.isBuffer(canal.imagem)
+          ? `data:image/png;base64,${canal.imagem.toString('base64')}`
+          : null
+      }));
 
-        this.edt = async (req, res) => {
-            await Canal.findByIdAndUpdate(req.params.id, req.body);
-            res.redirect('/' + this.caminhoBase + 'lst');
-        };
+      res.render(this.caminhoBase + 'lst', { canais: resposta });
+    };
 
-        this.del = async (req, res) => {
-            await Canal.findByIdAndDelete(req.params.id);
-            res.redirect('/' + this.caminhoBase + 'lst');
-        };
-    }
+    // Abre edição
+    this.openEdt = async (req, res) => {
+      const canal = await Canal.findById(req.params.id);
+      res.render(this.caminhoBase + "edt", { canal });
+    };
+
+    // Edita canal
+    this.edt = async (req, res) => {
+      const dados = {
+        nome: req.body.nome,
+        inscritos: req.body.inscritos
+      };
+      if (req.file) dados.imagem = req.file.buffer;
+      await Canal.findByIdAndUpdate(req.params.id, dados);
+      res.redirect('/' + this.caminhoBase + 'lst');
+    };
+
+    // Exclui canal
+    this.del = async (req, res) => {
+      await Canal.findByIdAndDelete(req.params.id);
+      res.redirect('/' + this.caminhoBase + 'lst');
+    };
+  }
 }
